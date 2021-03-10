@@ -1,4 +1,4 @@
-# TodoList
+# HelpoNizer
 
 [Open in browser](https://todo-list-react-2.vercel.app/)
 
