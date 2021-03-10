@@ -1,6 +1,6 @@
-# TodoList
+# HelpoNizer
 
-[Open in browser](https://todo-list-react-2.vercel.app/)
+[Open in browser](https://helponizer.vercel.app/)
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
