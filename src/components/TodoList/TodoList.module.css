@@ -1,0 +1,20 @@
+.wrapper {
+  background: #252525;
+}
+
+.title {
+  text-align: center;
+}
+
+.completedTasks {
+  margin: 0 auto;
+}
+
+.completedTitle {
+  display: none;
+  text-align: center;
+}
+
+.completedTitileTrue {
+  display: block;
+}
