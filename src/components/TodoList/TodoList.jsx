@@ -1,12 +1,32 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import clsx from "clsx";
 import styles from "./TodoList.module.css";
+import firebase from "firebase.js";
 import AddNewTaskForm from "components/TodoList/components/AddNewTaskForm/AddNewTaskForm.jsx";
 import SerchForm from "components/TodoList/components/SerchForm/SerchForm";
 import TodosItems from "components/TodoList/components/TodosItems/TodosItems";
 
-const TodoList = ({ title, todos }) => {
+const TodoList = ({ title, todoss }) => {
   const [serchValue, setSerchValue] = useState("");
+  const [todos, setTodos] = useState([]);
+
+  useEffect(() => {
+    const category = title.toLowerCase()
+    firebase.ref(`/todos/${category}`).on("value", (snapshot) => {
+      const todosArr = []
+      snapshot.forEach((childSnapshot) => {
+        let key = childSnapshot.key;
+        let data = childSnapshot.val();
+        todosArr.push({ key, ...data })
+      });
+      setTodos(todosArr);
+    });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    console.log(todos);
+  }, [todos]);
 
   const getNotCompletedTasks = () => todos.filter((todo) => !todo.completed);
 
@@ -27,7 +47,7 @@ const TodoList = ({ title, todos }) => {
             items={getFilteredTasksByName(getNotCompletedTasks(), serchValue)}
           />
         </section>
-        <AddNewTaskForm category={title.toLowerCase()} />
+        <AddNewTaskForm />
         <section className={styles.completedTasks}>
           <h2
             className={clsx(styles.completedTitle, {

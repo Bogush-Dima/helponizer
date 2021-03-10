@@ -7,7 +7,7 @@ const TodosItems = ({ items, toggleTask, deleteTask }) => {
         return (
           <TodoItem
             todo={todo}
-            key={todo.id}
+            key={todo.key}
             toggleTask={toggleTask}
             deleteTask={deleteTask}
           />

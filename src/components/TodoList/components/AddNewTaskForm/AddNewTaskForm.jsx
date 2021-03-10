@@ -5,11 +5,11 @@ import NotificationSystem from "react-notification-system";
 import styles from "./AddNewTaskForm.module.css";
 import firebase from "firebase.js";
 
-const AddNewTaskForm = ({ category }) => {
+const AddNewTaskForm = () => {
   const [inputValue, setInputValue] = useState("");
   const todos = useSelector((store) => store.todos);
 
-  const addTodo = (value, path) => {
+  const createTodo = (value, path) => {
     const todoInfo = {
       title: value,
       completed: false,
@@ -34,8 +34,7 @@ const AddNewTaskForm = ({ category }) => {
 
   const handleSubmit = (event) => {
     const path = window.location.pathname.slice(1);
-    console.log(path);
-    const firebaseTodos = firebase.ref(`/todos_${path}`);
+    const firebaseTodosCategory = firebase.ref(`/todos/${path}`);
     event.preventDefault();
     if (
       todos.find(
@@ -45,7 +44,7 @@ const AddNewTaskForm = ({ category }) => {
       addNotification();
       setInputValue(inputValue);
     } else {
-      firebaseTodos.push(addTodo(inputValue, path));
+      firebaseTodosCategory.push(createTodo(inputValue, path));
       setInputValue("");
     }
   };
