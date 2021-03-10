@@ -3,22 +3,20 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import NotificationSystem from "react-notification-system";
 import styles from "./AddNewTaskForm.module.css";
-import { addTodo } from "store/actions";
-import firebase from 'firebase.js'
+import firebase from "firebase.js";
 
-const AddNewTaskForm = () => {
+const AddNewTaskForm = ({ category }) => {
   const [inputValue, setInputValue] = useState("");
   const todos = useSelector((store) => store.todos);
-  const firebaseTodos = firebase.ref('/todos')
 
   const addTodo = (value, path) => {
-    return (
-      {
-        title: value,
-        completed: false,
-        category: path.slice(1),
-      })
-  }
+    const todoInfo = {
+      title: value,
+      completed: false,
+      category: path,
+    };
+    return todoInfo;
+  };
 
   const changeInputValue = (event) => {
     setInputValue(event.target.value);
@@ -35,20 +33,26 @@ const AddNewTaskForm = () => {
   };
 
   const handleSubmit = (event) => {
-    const path = window.location.pathname;
+    const path = window.location.pathname.slice(1);
+    console.log(path);
+    const firebaseTodos = firebase.ref(`/todos_${path}`);
     event.preventDefault();
-    if (todos.find((todo) => todo.title === inputValue && path.includes(todo.category))) {
+    if (
+      todos.find(
+        (todo) => todo.title === inputValue && path === todo.category
+      )
+    ) {
       addNotification();
       setInputValue(inputValue);
     } else {
-      firebaseTodos.push(addTodo(inputValue, path))
+      firebaseTodos.push(addTodo(inputValue, path));
       setInputValue("");
     }
   };
 
   return (
     <form className={styles.form} onSubmit={handleSubmit}>
-    <NotificationSystem ref={notificationSystem} />
+      <NotificationSystem ref={notificationSystem} />
       <input
         className={styles.newTask}
         spellCheck="false"

@@ -27,7 +27,7 @@ const TodoList = ({ title, todos }) => {
             items={getFilteredTasksByName(getNotCompletedTasks(), serchValue)}
           />
         </section>
-        <AddNewTaskForm />
+        <AddNewTaskForm category={title.toLowerCase()} />
         <section className={styles.completedTasks}>
           <h2
             className={clsx(styles.completedTitle, {
