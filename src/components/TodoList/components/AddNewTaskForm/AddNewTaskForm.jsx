@@ -4,11 +4,13 @@ import { useDispatch, useSelector } from "react-redux";
 import NotificationSystem from "react-notification-system";
 import styles from "./AddNewTaskForm.module.css";
 import { addTodo } from "store/actions";
+import firebase from 'firebase.js'
 
 const AddNewTaskForm = () => {
   const [inputValue, setInputValue] = useState("");
   const dispatch = useDispatch();
   const todos = useSelector((store) => store.todos);
+  const firebaseTodos = firebase.ref('/todos')
 
   const changeInputValue = (event) => {
     setInputValue(event.target.value);
@@ -31,7 +33,8 @@ const AddNewTaskForm = () => {
       addNotification();
       setInputValue(inputValue);
     } else {
-      dispatch(addTodo(inputValue, path));
+      // dispatch(addTodo(inputValue, path));
+      firebaseTodos.push(addTodo(inputValue, path))
       setInputValue("");
     }
   };
