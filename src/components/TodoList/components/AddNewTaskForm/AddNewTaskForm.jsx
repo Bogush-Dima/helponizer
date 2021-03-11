@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import NotificationSystem from "react-notification-system";
 import styles from "./AddNewTaskForm.module.css";
 import firebase from "firebase.js";
+import { TODOS } from "firebaseConstants";
 
 const AddNewTaskForm = () => {
   const [inputValue, setInputValue] = useState("");
@@ -34,12 +35,10 @@ const AddNewTaskForm = () => {
 
   const handleSubmit = (event) => {
     const path = window.location.pathname.slice(1);
-    const firebaseTodosCategory = firebase.ref(`/todos/${path}`);
+    const firebaseTodosCategory = firebase.ref(`/${TODOS}/${path}`);
     event.preventDefault();
     if (
-      todos.find(
-        (todo) => todo.title === inputValue && path === todo.category
-      )
+      todos.find((todo) => todo.title === inputValue && path === todo.category)
     ) {
       addNotification();
       setInputValue(inputValue);
