@@ -16,8 +16,8 @@ const TodoList = ({ title }) => {
     firebase.ref(`/${TODOS}/${category}`).on("value", (snapshot) => {
       const todosArr = [];
       snapshot.forEach((childSnapshot) => {
-        let key = childSnapshot.key;
-        let data = childSnapshot.val();
+        const key = childSnapshot.key;
+        const data = childSnapshot.val();
         todosArr.push({ key, ...data });
       });
       setTodos(todosArr);

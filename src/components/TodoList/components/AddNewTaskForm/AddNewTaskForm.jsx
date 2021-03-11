@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import NotificationSystem from "react-notification-system";
 import styles from "./AddNewTaskForm.module.css";
@@ -7,8 +7,23 @@ import firebase from "firebase.js";
 import { TODOS } from "firebaseConstants";
 
 const AddNewTaskForm = () => {
+  const path = window.location.pathname.slice(1);
+  const firebaseTodosCategory = firebase.ref(`/${TODOS}/${path}`);
   const [inputValue, setInputValue] = useState("");
-  const todos = useSelector((store) => store.todos);
+  // const todos = useSelector((store) => store.todos);
+  const [todos, setTodos] = useState("");
+
+  useEffect(() => {
+    firebaseTodosCategory.on('value', (snapshot) => {
+      const todosArr = []
+      snapshot.forEach(elem => {
+        const key = elem.key;
+        const data = elem.val();
+        todosArr.push({key, ...data})
+      })
+      setTodos(todosArr)
+    })
+  }, [])
 
   const createTodo = (value, path) => {
     const todoInfo = {
@@ -34,8 +49,8 @@ const AddNewTaskForm = () => {
   };
 
   const handleSubmit = (event) => {
-    const path = window.location.pathname.slice(1);
-    const firebaseTodosCategory = firebase.ref(`/${TODOS}/${path}`);
+    // const path = window.location.pathname.slice(1);
+    // const firebaseTodosCategory = firebase.ref(`/${TODOS}/${path}`);
     event.preventDefault();
     if (
       todos.find((todo) => todo.title === inputValue && path === todo.category)
