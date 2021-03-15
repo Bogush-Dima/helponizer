@@ -6,10 +6,15 @@ import styles from "./TodoItem.module.css";
 import { deleteTask } from "store/actions";
 
 const TodoItem = ({ todo: { key, title, completed, category } }) => {
+
   const toggleTask = () => {
     firebase.ref(`/${TODOS}/${category}`).child(key).update({
       completed: !completed,
     })
+  } 
+
+  const deleteTask = () => {
+    firebase.ref(`/${TODOS}/${category}`).child(key).remove()
   } 
 
   return (
@@ -26,7 +31,7 @@ const TodoItem = ({ todo: { key, title, completed, category } }) => {
       </span>
       <button 
         className={styles.deleteBtn}
-        // onClick={() => dispatch(deleteTask(key))}
+        onClick={deleteTask}
       >
         &times;
       </button>
