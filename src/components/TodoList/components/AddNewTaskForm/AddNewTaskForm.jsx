@@ -1,6 +1,5 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
 import NotificationSystem from "react-notification-system";
 import styles from "./AddNewTaskForm.module.css";
 import firebase from "firebase.js";
@@ -10,7 +9,6 @@ const AddNewTaskForm = () => {
   const path = window.location.pathname.slice(1);
   const firebaseTodosCategory = firebase.ref(`/${TODOS}/${path}`);
   const [inputValue, setInputValue] = useState("");
-  // const todos = useSelector((store) => store.todos);
   const [todos, setTodos] = useState("");
 
   useEffect(() => {
@@ -23,6 +21,7 @@ const AddNewTaskForm = () => {
       })
       setTodos(todosArr)
     })
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const createTodo = (value, path) => {
@@ -49,8 +48,6 @@ const AddNewTaskForm = () => {
   };
 
   const handleSubmit = (event) => {
-    // const path = window.location.pathname.slice(1);
-    // const firebaseTodosCategory = firebase.ref(`/${TODOS}/${path}`);
     event.preventDefault();
     if (
       todos.find((todo) => todo.title === inputValue && path === todo.category)

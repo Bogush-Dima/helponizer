@@ -2,7 +2,7 @@ import { ADD_TODO, DELETE_TASK, TOGGLE_TASK } from "store/constants";
 
 const initialState = JSON.parse(localStorage.getItem("todos")) || []
 
-const todosReducer = (state = initialState, action) => {
+const todosReducer = (state = initialState || {}, action) => {
   switch (action.type) {
     case ADD_TODO:
       return [
@@ -22,7 +22,7 @@ const todosReducer = (state = initialState, action) => {
         return todo;
       });
     case DELETE_TASK:
-      return state.filter(todo => todo.id !== action.payload)
+      return state.filter((todo) => todo.id !== action.payload);
     default:
       return state;
   }
