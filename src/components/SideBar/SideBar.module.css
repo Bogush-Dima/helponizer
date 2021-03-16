@@ -29,7 +29,7 @@
 }
 
 .listItem {
-  padding: 10px 0;
+  /* padding: 10px 0; */
   display: block;
   border-radius: 5px;
   transition: .2s;
@@ -41,6 +41,7 @@
 }
 
 .link {
+  padding: 10px 0;
   font-size: 23px;
   user-select: none;
   display: block;
