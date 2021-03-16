@@ -38,25 +38,32 @@ const TodoList = ({ title }) => {
     <div className={styles.wrapper}>
       <div>
         <SerchForm serchValue={serchValue} setSerchValue={setSerchValue} />
-        <h1 className={styles.title}>{title}</h1>
-        <section className={styles.todos}>
-          <TodosItems
-            items={getFilteredTasksByName(getNotCompletedTasks(), serchValue)}
-          />
-        </section>
-        <AddNewTaskForm />
-        <section className={styles.completedTasks}>
-          <h2
-            className={clsx(styles.completedTitle, {
-              [styles.completedTitileTrue]: getCompletedTasks().length !== 0,
-            })}
-          >
-            COMPLETED TASKS
-          </h2>
-          <TodosItems
-            items={getFilteredTasksByName(getCompletedTasks(), serchValue)}
-          />
-        </section>
+        <div className={styles.tasksWrapper}>
+          <section className={styles.unfinishedTasks}>
+            <h1 className={styles.title}>{title}</h1>
+            <div className={styles.todos}>
+              <TodosItems
+                items={getFilteredTasksByName(
+                  getNotCompletedTasks(),
+                  serchValue
+                )}
+              />
+            </div>
+            <AddNewTaskForm />
+          </section>
+          <section className={styles.completedTasks}>
+            <h2
+              className={clsx(styles.completedTitle, {
+                [styles.completedTitileTrue]: getCompletedTasks().length !== 0,
+              })}
+            >
+              COMPLETED TASKS
+            </h2>
+            <TodosItems
+              items={getFilteredTasksByName(getCompletedTasks(), serchValue)}
+            />
+          </section>
+        </div>
       </div>
     </div>
   );

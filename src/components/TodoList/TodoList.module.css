@@ -2,19 +2,29 @@
   background: #252525;
 }
 
+.tasksWrapper {
+  display: flex;
+  justify-content: space-around;
+}
+
 .title {
   text-align: center;
 }
 
-.completedTasks {
-  margin: 0 auto;
-}
-
 .completedTitle {
-  display: none;
   text-align: center;
 }
 
-.completedTitileTrue {
-  display: block;
+@media(max-width: 600px) {
+  .tasksWrapper {
+    display: block;
+  }
+
+  .completedTitle {
+    display: none;
+  }
+
+  .completedTitileTrue {
+    display: block;
+  }
 }

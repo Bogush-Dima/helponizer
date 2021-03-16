@@ -1,9 +1,7 @@
-import { useDispatch } from "react-redux";
 import firebase from "firebase.js";
 import { TODOS } from "firebaseConstants";
 import clsx from "clsx";
 import styles from "./TodoItem.module.css";
-import { deleteTask } from "store/actions";
 
 const TodoItem = ({ todo: { key, title, completed, category } }) => {
 
