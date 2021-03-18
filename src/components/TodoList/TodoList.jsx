@@ -13,15 +13,15 @@ const TodoList = ({ title }) => {
   const [todos, setTodos] = useState([]);
 
   useEffect(() => {
-    firebase.ref(`/${TODOS}/${path}`).on("value", (snapshot) => {
-      const todosArr = [];
-      snapshot.forEach((childSnapshot) => {
-        const key = childSnapshot.key;
-        const data = childSnapshot.val();
-        todosArr.push({ key, ...data });
+      firebase.ref(`/${TODOS}/${path}`).on("value", (snapshot) => {
+        const todosArr = [];
+        snapshot.forEach((childSnapshot) => {
+          const key = childSnapshot.key;
+          const data = childSnapshot.val();
+          todosArr.push({ key, ...data });
+        });
+        setTodos(todosArr);
       });
-      setTodos(todosArr);
-    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

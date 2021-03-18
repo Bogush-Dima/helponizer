@@ -11,14 +11,17 @@ const App = () => {
   const [arr, setArr] = useState([]);
 
   useEffect(() => {
-    firebase.ref(`/${TODOS}/${ALLCATEGORIESNAMES}`).on("value", (snapshot) => {
-      const arr2 = [];
-      snapshot.forEach((el) => {
-        const value = el.val();
-        arr2.push(value);
-      });
-      setArr(arr2);
-    });
+      firebase
+        .ref(`/${TODOS}/${ALLCATEGORIESNAMES}`)
+        .on("value", (snapshot) => {
+          const arr2 = [];
+          snapshot.forEach((el) => {
+            const key = el.key;
+            const value = el.val();
+            arr2.push({ key, value });
+          });
+          setArr(arr2);
+        });
   }, []);
 
   return (
@@ -29,10 +32,11 @@ const App = () => {
           <Route exact path="/">
             <Main />
           </Route>
-          {arr.map((value) => {
+          {arr.map(({ key, value }) => {
             const filteredValue = value.replaceAll(" ", "");
             return (
               <Route
+                key={key}
                 path={`/${filteredValue}`}
                 render={() => {
                   return <TodoList title={`${value.toUpperCase()}`} />;
@@ -40,18 +44,6 @@ const App = () => {
               />
             );
           })}
-          <Route
-            path="/work"
-            render={() => {
-              return <TodoList title="WORK" />;
-            }}
-          />
-          <Route
-            path="/private"
-            render={() => {
-              return <TodoList title="PRIVATE" />;
-            }}
-          />
         </div>
       </div>
     </BrowserRouter>

@@ -1,5 +1,6 @@
 import { NavLink } from "react-router-dom";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import NotificationSystem from "react-notification-system";
 import clsx from "clsx";
 import styles from "./SideBar.module.css";
 import firebase from "firebase.js";
@@ -14,8 +15,9 @@ const SideBar = () => {
     firebase.ref(`/${TODOS}/${ALLCATEGORIESNAMES}`).on("value", (snapshot) => {
       const categoriesNamesArr = [];
       snapshot.forEach((childSnapshot) => {
-        const data = childSnapshot.val();
-        categoriesNamesArr.push(data);
+        const key = childSnapshot.key;
+        const value = childSnapshot.val();
+        categoriesNamesArr.push({ key, value });
       });
       setAllCategoriesNames(categoriesNamesArr);
     });
@@ -29,19 +31,36 @@ const SideBar = () => {
     setCategoryName(event.target.value);
   };
 
+  const notificationSystem = React.useRef();
+
+  const addNotification = () => {
+    const notification = notificationSystem.current;
+    notification.addNotification({
+      message: "You are already have category with the same name",
+      level: "warning",
+    });
+  };
+
   const submitCategoryName = (event) => {
     event.preventDefault();
-    // const trimmed = categoryName.trim();
-    const finalResultCategoryName = categoryName.trim();
-    firebase
-      .ref(`/${TODOS}/${ALLCATEGORIESNAMES}`)
-      .push(finalResultCategoryName);
-    setCategoryName("");
-    setShowInput(!showInput);
+    const finalResultCategoryName = categoryName.trim().toLowerCase();
+    const isAvailable = (el) => el.value === finalResultCategoryName;
+    if (allCategoriesNames.some(isAvailable)) {
+      addNotification();
+    } else {
+      if (finalResultCategoryName) {
+        firebase
+          .ref(`/${TODOS}/${ALLCATEGORIESNAMES}`)
+          .push(finalResultCategoryName);
+      }
+      setCategoryName("");
+      setShowInput(!showInput);
+    }
   };
 
   return (
     <nav className={styles.navBar}>
+      <NotificationSystem ref={notificationSystem} />
       <div className={styles.wrapper}>
         <form className={styles.addCategoryForm} onSubmit={submitCategoryName}>
           <input
@@ -70,21 +89,11 @@ const SideBar = () => {
               Main
             </NavLink>
           </li>
-          <li className={styles.listItem}>
-            <NavLink className={styles.link} to="work">
-              Work
-            </NavLink>
-          </li>
-          <li className={styles.listItem}>
-            <NavLink className={styles.link} to="private">
-              Private
-            </NavLink>
-          </li>
-          {allCategoriesNames.map((categoryName) => {
-            const filteredCategoryName = categoryName.replaceAll(" ", "");
-            const title = categoryName[0].toUpperCase() + categoryName.slice(1)
+          {allCategoriesNames.map(({ key, value }) => {
+            const filteredCategoryName = value.replaceAll(" ", "");
+            const title = value[0].toUpperCase() + value.slice(1);
             return (
-              <li className={styles.listItem}>
+              <li className={styles.listItem} key={key}>
                 <NavLink className={styles.link} to={filteredCategoryName}>
                   {title}
                 </NavLink>
