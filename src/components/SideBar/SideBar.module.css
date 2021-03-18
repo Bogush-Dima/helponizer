@@ -12,7 +12,7 @@
   flex-direction: column;
 }
 
-.addList {
+.plusBtn {
   margin: 0 auto 30px;
   font-size: 25px;
   height: 40px;
@@ -22,6 +22,18 @@
   padding: 0;
 }
 
+.plusBtnHidden {
+  display: none;
+}
+
+.input {
+  display: none;
+}
+
+.showInput {
+  display: block;
+}
+
 .list {
   list-style: none;
   padding: 0;
@@ -29,7 +41,6 @@
 }
 
 .listItem {
-  /* padding: 10px 0; */
   display: block;
   border-radius: 5px;
   transition: .2s;

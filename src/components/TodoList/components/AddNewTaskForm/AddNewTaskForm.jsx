@@ -12,23 +12,23 @@ const AddNewTaskForm = () => {
   const [todos, setTodos] = useState("");
 
   useEffect(() => {
-    firebaseTodosCategory.on('value', (snapshot) => {
-      const todosArr = []
-      snapshot.forEach(elem => {
+    firebaseTodosCategory.on("value", (snapshot) => {
+      const todosArr = [];
+      snapshot.forEach((elem) => {
         const key = elem.key;
         const data = elem.val();
-        todosArr.push({key, ...data})
-      })
-      setTodos(todosArr)
-    })
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+        todosArr.push({ key, ...data });
+      });
+      setTodos(todosArr);
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const createTodo = (value, path) => {
     const todoInfo = {
       title: value,
       completed: false,
-      category: path,
+      category: path.toLowerCase(),
     };
     return todoInfo;
   };
@@ -63,21 +63,23 @@ const AddNewTaskForm = () => {
   return (
     <form className={styles.form} onSubmit={handleSubmit}>
       <NotificationSystem ref={notificationSystem} />
-      <input
-        className={styles.newTask}
-        spellCheck="false"
-        type="text"
-        placeholder="Add Task"
-        value={inputValue}
-        onChange={changeInputValue}
-      />
-      <button
-        className="button add-button"
-        type="submit"
-        disabled={!inputValue}
-      >
-        add
-      </button>
+      <div className={styles.container}>
+        <input
+          className={styles.newTask}
+          spellCheck="false"
+          type="text"
+          placeholder="Add Task"
+          value={inputValue}
+          onChange={changeInputValue}
+        />
+        <button
+          className="button add-button"
+          type="submit"
+          disabled={!inputValue}
+        >
+          +
+        </button>
+      </div>
     </form>
   );
 };

@@ -8,12 +8,12 @@ import SerchForm from "components/TodoList/components/SerchForm/SerchForm";
 import TodosItems from "components/TodoList/components/TodosItems/TodosItems";
 
 const TodoList = ({ title }) => {
+  const path = window.location.pathname.slice(1);
   const [serchValue, setSerchValue] = useState("");
   const [todos, setTodos] = useState([]);
 
   useEffect(() => {
-    const category = title.toLowerCase();
-    firebase.ref(`/${TODOS}/${category}`).on("value", (snapshot) => {
+    firebase.ref(`/${TODOS}/${path}`).on("value", (snapshot) => {
       const todosArr = [];
       snapshot.forEach((childSnapshot) => {
         const key = childSnapshot.key;
@@ -38,9 +38,10 @@ const TodoList = ({ title }) => {
     <div className={styles.wrapper}>
       <div>
         <SerchForm serchValue={serchValue} setSerchValue={setSerchValue} />
+        <h1 className={styles.title}>{title}</h1>
         <div className={styles.tasksWrapper}>
           <section className={styles.unfinishedTasks}>
-            <h1 className={styles.title}>{title}</h1>
+            <h2 className={styles.subTitle}>DURING</h2>
             <div className={styles.todos}>
               <TodosItems
                 items={getFilteredTasksByName(
@@ -53,7 +54,7 @@ const TodoList = ({ title }) => {
           </section>
           <section className={styles.completedTasks}>
             <h2
-              className={clsx(styles.completedTitle, {
+              className={clsx(styles.subTitle, styles.completedTitle, {
                 [styles.completedTitileTrue]: getCompletedTasks().length !== 0,
               })}
             >
