@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import clsx from "clsx";
 import styles from "./TodoList.module.css";
-import firebase from "firebase.js";
+import { fireData } from "firebase.js";
 import { TODOS } from "firebaseConstants";
 import AddNewTaskForm from "components/TodoList/components/AddNewTaskForm/AddNewTaskForm.jsx";
 import SerchForm from "components/TodoList/components/SerchForm/SerchForm";
@@ -13,15 +13,15 @@ const TodoList = ({ title }) => {
   const [todos, setTodos] = useState([]);
 
   useEffect(() => {
-      firebase.ref(`/${TODOS}/${path}`).on("value", (snapshot) => {
-        const todosArr = [];
-        snapshot.forEach((childSnapshot) => {
-          const key = childSnapshot.key;
-          const data = childSnapshot.val();
-          todosArr.push({ key, ...data });
-        });
-        setTodos(todosArr);
+    fireData.ref(`/${TODOS}/${path}`).on("value", (snapshot) => {
+      const todosArr = [];
+      snapshot.forEach((childSnapshot) => {
+        const key = childSnapshot.key;
+        const data = childSnapshot.val();
+        todosArr.push({ key, ...data });
       });
+      setTodos(todosArr);
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

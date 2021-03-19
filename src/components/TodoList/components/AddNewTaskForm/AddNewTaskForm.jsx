@@ -2,12 +2,12 @@ import React from "react";
 import { useState, useEffect } from "react";
 import NotificationSystem from "react-notification-system";
 import styles from "./AddNewTaskForm.module.css";
-import firebase from "firebase.js";
+import { fireData } from "firebase.js";
 import { TODOS } from "firebaseConstants";
 
 const AddNewTaskForm = () => {
   const path = window.location.pathname.slice(1);
-  const firebaseTodosCategory = firebase.ref(`/${TODOS}/${path}`);
+  const firebaseTodosCategory = fireData.ref(`/${TODOS}/${path}`);
   const [inputValue, setInputValue] = useState("");
   const [todos, setTodos] = useState("");
 

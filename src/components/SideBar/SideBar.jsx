@@ -3,16 +3,16 @@ import React, { useEffect, useState } from "react";
 import NotificationSystem from "react-notification-system";
 import clsx from "clsx";
 import styles from "./SideBar.module.css";
-import firebase from "firebase.js";
+import { fireData, fireAuth } from "firebase.js";
 import { TODOS, ALLCATEGORIESNAMES } from "firebaseConstants";
 
-const SideBar = () => {
+const SideBar = ({ userName, setUser }) => {
   const [allCategoriesNames, setAllCategoriesNames] = useState([]);
   const [categoryName, setCategoryName] = useState("");
   const [showInput, setShowInput] = useState(false);
 
   useEffect(() => {
-    firebase.ref(`/${TODOS}/${ALLCATEGORIESNAMES}`).on("value", (snapshot) => {
+    fireData.ref(`/${TODOS}/${ALLCATEGORIESNAMES}`).on("value", (snapshot) => {
       const categoriesNamesArr = [];
       snapshot.forEach((childSnapshot) => {
         const key = childSnapshot.key;
@@ -22,6 +22,17 @@ const SideBar = () => {
       setAllCategoriesNames(categoriesNamesArr);
     });
   }, []);
+
+  const signOut = (event) => {
+    event.preventDefault();
+    fireAuth
+      .signOut()
+      .then(() => setUser(fireAuth.currentUser))
+      .catch((error) => {
+        console.log(error.code);
+        console.log(error.message);
+      });
+  };
 
   const toggleInput = () => {
     setShowInput(!showInput);
@@ -49,7 +60,7 @@ const SideBar = () => {
       addNotification();
     } else {
       if (finalResultCategoryName) {
-        firebase
+        fireData
           .ref(`/${TODOS}/${ALLCATEGORIESNAMES}`)
           .push(finalResultCategoryName);
       }
@@ -60,6 +71,8 @@ const SideBar = () => {
 
   return (
     <nav className={styles.navBar}>
+      <button onClick={signOut}>Sign Out</button>
+      <h2 className={styles.userName}>{userName}</h2>
       <NotificationSystem ref={notificationSystem} />
       <div className={styles.wrapper}>
         <form className={styles.addCategoryForm} onSubmit={submitCategoryName}>
