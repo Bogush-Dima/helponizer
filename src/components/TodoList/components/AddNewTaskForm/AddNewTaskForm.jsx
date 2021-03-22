@@ -5,9 +5,9 @@ import styles from "./AddNewTaskForm.module.css";
 import { fireData } from "firebase.js";
 import { TODOS } from "firebaseConstants";
 
-const AddNewTaskForm = () => {
+const AddNewTaskForm = ({userName}) => {
   const path = window.location.pathname.slice(1);
-  const firebaseTodosCategory = fireData.ref(`/${TODOS}/${path}`);
+  const firebaseTodosCategory = fireData.ref(`/${userName}/${TODOS}/${path}`);
   const [inputValue, setInputValue] = useState("");
   const [todos, setTodos] = useState("");
 

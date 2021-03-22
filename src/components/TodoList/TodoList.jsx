@@ -7,13 +7,13 @@ import AddNewTaskForm from "components/TodoList/components/AddNewTaskForm/AddNew
 import SerchForm from "components/TodoList/components/SerchForm/SerchForm";
 import TodosItems from "components/TodoList/components/TodosItems/TodosItems";
 
-const TodoList = ({ title }) => {
+const TodoList = ({ title, userName }) => {
   const path = window.location.pathname.slice(1);
   const [serchValue, setSerchValue] = useState("");
   const [todos, setTodos] = useState([]);
 
   useEffect(() => {
-    fireData.ref(`/${TODOS}/${path}`).on("value", (snapshot) => {
+    fireData.ref(`/${userName}/${TODOS}/${path}`).on("value", (snapshot) => {
       const todosArr = [];
       snapshot.forEach((childSnapshot) => {
         const key = childSnapshot.key;
@@ -50,7 +50,7 @@ const TodoList = ({ title }) => {
                 )}
               />
             </div>
-            <AddNewTaskForm />
+            <AddNewTaskForm userName={userName} />
           </section>
           <section className={styles.completedTasks}>
             <h2

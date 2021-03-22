@@ -1,17 +1,20 @@
-import { fireData } from "firebase.js";
+import { useState } from "react";
+import { fireData, fireAuth } from "firebase.js";
 import { TODOS } from "firebaseConstants";
 import clsx from "clsx";
 import styles from "./TodoItem.module.css";
 
 const TodoItem = ({ todo: { key, title, completed, category } }) => {
+  const [userName] = useState(fireAuth.currentUser.displayName)
+
   const toggleTask = () => {
-    fireData.ref(`/${TODOS}/${category}`).child(key).update({
+    fireData.ref(`/${userName}/${TODOS}/${category}`).child(key).update({
       completed: !completed,
     });
   };
 
   const deleteTask = () => {
-    fireData.ref(`/${TODOS}/${category}`).child(key).remove();
+    fireData.ref(`/${userName}/${TODOS}/${category}`).child(key).remove();
   };
 
   return (

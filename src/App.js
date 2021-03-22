@@ -13,16 +13,20 @@ const App = () => {
   const [user, setUser] = useState(fireAuth.currentUser);
 
   useEffect(() => {
-    fireData.ref(`/${TODOS}/${ALLCATEGORIESNAMES}`).on("value", (snapshot) => {
-      const arr2 = [];
-      snapshot.forEach((el) => {
-        const key = el.key;
-        const value = el.val();
-        arr2.push({ key, value });
-      });
-      setArr(arr2);
-    });
-  }, []);
+    if (user) {
+      fireData
+        .ref(`/${user.displayName}/${TODOS}/${ALLCATEGORIESNAMES}`)
+        .on("value", (snapshot) => {
+          const arr2 = [];
+          snapshot.forEach((el) => {
+            const key = el.key;
+            const value = el.val();
+            arr2.push({ key, value });
+          });
+          setArr(arr2);
+        });
+    }
+  }, [user]);
 
   return (
     <BrowserRouter>
@@ -40,7 +44,12 @@ const App = () => {
                   key={key}
                   path={`/${filteredValue}`}
                   render={() => {
-                    return <TodoList title={`${value.toUpperCase()}`} />;
+                    return (
+                      <TodoList
+                        title={`${value.toUpperCase()}`}
+                        userName={user.displayName}
+                      />
+                    );
                   }}
                 />
               );

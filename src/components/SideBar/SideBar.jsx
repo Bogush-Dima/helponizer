@@ -12,7 +12,7 @@ const SideBar = ({ userName, setUser }) => {
   const [showInput, setShowInput] = useState(false);
 
   useEffect(() => {
-    fireData.ref(`/${TODOS}/${ALLCATEGORIESNAMES}`).on("value", (snapshot) => {
+    fireData.ref(`/${userName}/${TODOS}/${ALLCATEGORIESNAMES}`).on("value", (snapshot) => {
       const categoriesNamesArr = [];
       snapshot.forEach((childSnapshot) => {
         const key = childSnapshot.key;
@@ -21,10 +21,11 @@ const SideBar = ({ userName, setUser }) => {
       });
       setAllCategoriesNames(categoriesNamesArr);
     });
-  }, []);
+  }, [userName]);
 
   const signOut = (event) => {
     event.preventDefault();
+    window.location.pathname = '/'
     fireAuth
       .signOut()
       .then(() => setUser(fireAuth.currentUser))
@@ -61,7 +62,7 @@ const SideBar = ({ userName, setUser }) => {
     } else {
       if (finalResultCategoryName) {
         fireData
-          .ref(`/${TODOS}/${ALLCATEGORIESNAMES}`)
+          .ref(`/${userName}/${TODOS}/${ALLCATEGORIESNAMES}`)
           .push(finalResultCategoryName);
       }
       setCategoryName("");
@@ -71,8 +72,10 @@ const SideBar = ({ userName, setUser }) => {
 
   return (
     <nav className={styles.navBar}>
-      <button onClick={signOut}>Sign Out</button>
-      <h2 className={styles.userName}>{userName}</h2>
+      <div className={styles.user}>
+        <h2 className={styles.userName}>{userName}</h2>
+        <button onClick={signOut}>Sign Out</button>
+      </div>
       <NotificationSystem ref={notificationSystem} />
       <div className={styles.wrapper}>
         <form className={styles.addCategoryForm} onSubmit={submitCategoryName}>

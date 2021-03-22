@@ -1,12 +1,17 @@
 .navBar {
   background: #1d1d1d;
-  display: flex;
-  justify-content: center;
-  padding-top: 100px;
   min-width: 50px;
 }
 
+.user {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 10px 0 60px 0;
+}
+
 .wrapper {
+  margin: 0 auto;
   width: 80%;
   display: flex;
   flex-direction: column;
