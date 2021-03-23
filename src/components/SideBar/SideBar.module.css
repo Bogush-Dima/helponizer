@@ -1,16 +1,12 @@
 .navBar {
   background: #1d1d1d;
   min-width: 50px;
-  border-left: 2px solid #ffffff5c;
-  border-right: 2px solid #ffffff5c;
 }
 
 .list {
   list-style: none;
   padding: 0;
   margin: 0;
-  border-top: 2px solid #ffffff5c;
-  border-bottom: 2px solid #ffffff5c;
 }
 
 .listItem {
