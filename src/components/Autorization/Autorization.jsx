@@ -53,6 +53,21 @@ export const Autorization = ({ setUser }) => {
       });
   };
 
+  const signInDev = (event) => {
+    event.preventDefault();
+    fireAuth
+      .signInWithEmailAndPassword("DEV@helponizer.com", '111111')
+      .then(() => {
+        setName("");
+        setPassword("");
+        setUser(fireAuth.currentUser);
+      })
+      .catch((error) => {
+        console.log(error.code);
+        console.log(error.message);
+      });
+  };
+
   return (
     <div className={styles.wrapper}>
       <form className={styles.form}>
@@ -70,6 +85,7 @@ export const Autorization = ({ setUser }) => {
         />
         <button onClick={signUp}>Sign Up</button>
         <button onClick={signIn}>Sign In</button>
+        <button className={styles.devBtn} onClick={signInDev}>Develope</button>
       </form>
     </div>
   );

@@ -49,7 +49,7 @@ button:disabled:hover {
 
 .wrapper {
   display: grid;
-  min-height: 100vh;
+  min-height: calc(100vh - 61px);
   grid-template-columns: 2fr 10fr;
 }
 

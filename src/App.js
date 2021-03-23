@@ -7,6 +7,7 @@ import SideBar from "components/SideBar/SideBar";
 import TodoList from "components/TodoList/TodoList";
 import { useEffect, useState } from "react";
 import { Autorization } from "components/Autorization/Autorization";
+import { Header } from "components/Header/Header";
 
 const App = () => {
   const [arr, setArr] = useState([]);
@@ -32,29 +33,32 @@ const App = () => {
     <BrowserRouter>
       <div className={styles.mainWrapper}>
         {user ? (
-          <div className={styles.wrapper}>
-            <SideBar userName={user.displayName} setUser={setUser} />
-            <Route exact path="/">
-              <Main />
-            </Route>
-            {arr.map(({ key, value }) => {
-              const filteredValue = value.replaceAll(" ", "");
-              return (
-                <Route
-                  key={key}
-                  path={`/${filteredValue}`}
-                  render={() => {
-                    return (
-                      <TodoList
-                        title={`${value.toUpperCase()}`}
-                        userName={user.displayName}
-                      />
-                    );
-                  }}
-                />
-              );
-            })}
-          </div>
+          <>
+            <Header userName={user.displayName} setUser={setUser} />
+            <div className={styles.wrapper}>
+              <SideBar />
+              <Route exact path="/">
+                <Main />
+              </Route>
+              {arr.map(({ key, value }) => {
+                const filteredValue = value.replaceAll(" ", "");
+                return (
+                  <Route
+                    key={key}
+                    path={`/${filteredValue}`}
+                    render={() => {
+                      return (
+                        <TodoList
+                          title={`${value.toUpperCase()}`}
+                          userName={user.displayName}
+                        />
+                      );
+                    }}
+                  />
+                );
+              })}
+            </div>
+          </>
         ) : (
           <Autorization setUser={setUser} />
         )}
