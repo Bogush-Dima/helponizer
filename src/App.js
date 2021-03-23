@@ -14,6 +14,24 @@ const App = () => {
   const [user, setUser] = useState(fireAuth.currentUser);
 
   useEffect(() => {
+    const getUserInfoFromLS = JSON.parse(window.localStorage.getItem("user"));
+    const fun = async () => {
+      await fireAuth
+        .signInWithEmailAndPassword(
+          getUserInfoFromLS.name,
+          getUserInfoFromLS.password
+        )
+        .catch((error) => {
+          console.log(error);
+        });
+      setUser(fireAuth.currentUser);
+    };
+    if (getUserInfoFromLS) {
+      fun();
+    }
+  }, []);
+
+  useEffect(() => {
     if (user) {
       fireData
         .ref(`/${user.displayName}/${TODOS}/${ALLCATEGORIESNAMES}`)

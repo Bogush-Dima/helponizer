@@ -63,7 +63,7 @@ export const TodoLists = ({ toggleTodoLists }) => {
       })}
     >
       <NotificationSystem ref={notificationSystem} />
-      <form onSubmit={submittodoListName}>
+      <form className={styles.form} onSubmit={submittodoListName}>
         <input
           className={styles.input}
           type="text"

@@ -1,12 +1,16 @@
 .ul {
   display: block;
-  padding: 15px 0 0 0;
+  padding: 0;
   background: #8080801f;
+}
+
+.form {
+  padding: 15px 0;
 }
 
 .input {
   width: 85%;
-  margin: 0px auto 15px;
+  margin: 0 auto;
   display: block;
 }
 
