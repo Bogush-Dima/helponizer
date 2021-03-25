@@ -1,0 +1,30 @@
+.wrapper {
+  background: #252525;
+}
+
+.tasksWrapper {
+  display: flex;
+  justify-content: space-around;
+}
+
+.title {
+  text-align: center;
+}
+
+.subTitle {
+  text-align: center;
+}
+
+@media(max-width: 600px) {
+  .tasksWrapper {
+    display: block;
+  }
+
+  .completedTitle {
+    display: none;
+  }
+
+  .completedTitileTrue {
+    display: block;
+  }
+}
