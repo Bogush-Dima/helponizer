@@ -3,7 +3,7 @@ import { fireAuth } from "firebase.js";
 import styles from "./Header.module.css";
 import logo from "./logo.png";
 import { NavLink } from "react-router-dom";
-import { Context } from "App";
+import { Context } from "context";
 
 export const Header = () => {
   const {userName, setUser} = useContext(Context)

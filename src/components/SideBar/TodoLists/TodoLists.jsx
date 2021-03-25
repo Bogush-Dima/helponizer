@@ -5,7 +5,7 @@ import styles from "./TodoLists.module.css";
 import { fireData } from "firebase.js";
 import { TODOS, ALLCATEGORIESNAMES } from "firebaseConstants";
 import { NavLink } from "react-router-dom";
-import {Context} from 'App'
+import {Context} from 'context'
 
 export const TodoLists = ({ toggleTodoLists }) => {
   const [flag, setFlag] = useState(false)

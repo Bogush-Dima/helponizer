@@ -2,19 +2,21 @@ import { useContext, useState, useReducer } from "react";
 import styles from "./Autorization.module.css";
 import { fireAuth, fireGoogleProvider } from "firebase.js";
 import clsx from "clsx";
-import { Context } from "App";
-import {userReducer} from 'reducers/userReducer'
-import {SignInWithGoogle} from 'actions/userActions'
+import { Context } from "context";
+import { userReducer } from "reducers/userReducer";
+import { signInWithGoogle } from "actions/userActions";
 
-export const Autorization = ({ setUser }) => {
+export const Autorization = ({setUser}) => {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [emailErr, setEmailErr] = useState("");
   const [passwordErr, setPasswordErr] = useState("");
 
-  const {user} = useContext(Context)
+  const { user, dispatchUser } = useContext(Context);
 
-  const [state, dispatch] = useReducer(userReducer, user)
+  // const [state, dispatch] = useReducer(userReducer, user);
+  // setUser(state)
+  // console.log(state);
 
   const changeInputsValues = (event, setValue) => {
     event.preventDefault();
@@ -55,7 +57,7 @@ export const Autorization = ({ setUser }) => {
     fireAuth
       .createUserWithEmailAndPassword(changedName, password)
       .then((info) => {
-        const {user} = info
+        const { user } = info;
         const { email } = user;
         const getUserInfoFromLS = window.localStorage.getItem("user");
         const userInfoToLS = { name: changedName, password };
@@ -81,10 +83,15 @@ export const Autorization = ({ setUser }) => {
       });
   };
 
-  const signInWithGoogle = async () => {
-    const user = await fireAuth.signInWithPopup(fireGoogleProvider)
-    setUser(fireAuth)
-  }
+  // const signInWithGoogle = async () => {
+  //   const user = await fireAuth.signInWithPopup(fireGoogleProvider)
+  //   setUser(fireAuth)
+  // }
+
+  const clickSignInWithGoogle = async () => {
+    const {user} = await fireAuth.signInWithPopup(fireGoogleProvider);
+    dispatchUser(signInWithGoogle(user));
+  };
 
   const signInDev = (event) => {
     event.preventDefault();
@@ -112,7 +119,8 @@ export const Autorization = ({ setUser }) => {
     <div className={styles.wrapper}>
       <form className={styles.form} onSubmit={signIn}>
         <div className={styles.inputs}>
-          <input className={styles.input}
+          <input
+            className={styles.input}
             type="email"
             placeholder="Name"
             value={name}
@@ -123,7 +131,8 @@ export const Autorization = ({ setUser }) => {
           >
             {emailErr}
           </p>
-          <input className={styles.input}
+          <input
+            className={styles.input}
             type="password"
             placeholder="Password (min 6 symbols)"
             value={password}
@@ -138,10 +147,19 @@ export const Autorization = ({ setUser }) => {
           </p>
         </div>
         <div className={styles.buttons}>
-          <button className={styles.button} onClick={signIn}>Sign In</button>
-          <button className={styles.button} onClick={signUp}>Sign Up</button>
-          <button className={styles.button} onClick={signInWithGoogle}>Log In with Google</button>
-          <button className={`${styles.button} ${styles.devBtn}`} onClick={signInDev}>
+          <button className={styles.button} onClick={signIn}>
+            Sign In
+          </button>
+          <button className={styles.button} onClick={signUp}>
+            Sign Up
+          </button>
+          <button className={styles.button} onClick={clickSignInWithGoogle}>
+            Log In with Google
+          </button>
+          <button
+            className={`${styles.button} ${styles.devBtn}`}
+            onClick={signInDev}
+          >
             Develope
           </button>
         </div>

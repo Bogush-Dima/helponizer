@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter, Route } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import styles from "App.module.css";
 import { fireData, fireAuth } from "firebase.js";
 import { TODOS, ALLCATEGORIESNAMES } from "firebaseConstants";
@@ -9,13 +9,15 @@ import SideBar from "components/SideBar/SideBar";
 import TodoList from "components/TodoList/TodoList";
 import { Autorization } from "components/Autorization/Autorization";
 import { Header } from "components/Header/Header";
-
-export const Context = React.createContext()
+import { Context } from "context";
 
 const App = () => {
   const [flagApp, setFlagApp] = useState(false);
   const [todoLists, setTodoLists] = useState([]);
-  const [user, setUser] = useState('');
+  // const [user, setUser] = useState('');
+  const {user} = useContext(Context)
+
+  console.log(user);
 
   useEffect(() => {
     if (user) {
@@ -35,7 +37,6 @@ const App = () => {
 
   const context = {
     user,
-    setUser,
     userName: user ? user.displayName : '',
     flagApp,
     setFlagApp
@@ -43,7 +44,6 @@ const App = () => {
 
   return (
     <BrowserRouter>
-      <Context.Provider value={context}>
         <div className={styles.mainWrapper}>
           {user ? (
             <>
@@ -73,10 +73,9 @@ const App = () => {
               </div>
             </>
           ) : (
-            <Autorization setUser={setUser} />
+            <Autorization />
           )}
         </div>
-      </Context.Provider>
     </BrowserRouter>
   );
 };
