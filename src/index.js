@@ -1,17 +1,16 @@
-import React, { useReducer } from "react";
+import React, { useState } from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import {Context} from 'context'
-import { userReducer } from "reducers/userReducer";
 
 const Main = () => {
-  const [user, dispatchUser] = useReducer(userReducer, '')
+  const [user, setUser] = useState(null)
 
   return (
     <React.StrictMode>
-    <Context.Provider value={{user, dispatchUser}}>
+    <Context.Provider value={{user, setUser}}>
       <App />
     </Context.Provider>
     </React.StrictMode>

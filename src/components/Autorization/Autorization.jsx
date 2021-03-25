@@ -1,22 +1,15 @@
-import { useContext, useState, useReducer } from "react";
+import { useContext, useState } from "react";
 import styles from "./Autorization.module.css";
 import { fireAuth, fireGoogleProvider } from "firebase.js";
 import clsx from "clsx";
 import { Context } from "context";
-import { userReducer } from "reducers/userReducer";
-import { signInWithGoogle } from "actions/userActions";
 
-export const Autorization = ({setUser}) => {
+export const Autorization = () => {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [emailErr, setEmailErr] = useState("");
   const [passwordErr, setPasswordErr] = useState("");
-
-  const { user, dispatchUser } = useContext(Context);
-
-  // const [state, dispatch] = useReducer(userReducer, user);
-  // setUser(state)
-  // console.log(state);
+  const { setUser } = useContext(Context);
 
   const changeInputsValues = (event, setValue) => {
     event.preventDefault();
@@ -25,99 +18,65 @@ export const Autorization = ({setUser}) => {
     setPasswordErr("");
   };
 
-  const createUserName = (value) =>
-    value[0].toUpperCase() + value.slice(1, value.search("@"));
-
-  const signIn = (event) => {
+  const enterUser = async (event) => {
     event.preventDefault();
     const changedName = name + "@helponizer.com";
-    fireAuth
-      .signInWithEmailAndPassword(changedName, password)
-      .then(() => {
-        const getUserInfoFromLS = window.localStorage.getItem("user");
-        const userInfoToLS = { name: changedName, password };
-        if (getUserInfoFromLS) {
-          window.localStorage.removeItem("user");
-        }
-        window.localStorage.setItem("user", JSON.stringify(userInfoToLS));
-        setName("");
-        setPassword("");
-        setUser(fireAuth.currentUser);
-      })
-      .catch((error) => {
-        const { code, message } = error;
-        code.includes("email") ? setEmailErr(message) : setPasswordErr(message);
-        console.log(error.code);
-      });
-  };
 
-  const signUp = (event) => {
-    event.preventDefault();
-    const changedName = name + "@helponizer.com";
-    fireAuth
-      .createUserWithEmailAndPassword(changedName, password)
-      .then((info) => {
-        const { user } = info;
-        const { email } = user;
-        const getUserInfoFromLS = window.localStorage.getItem("user");
-        const userInfoToLS = { name: changedName, password };
-        setUser(user);
+    switch (event.target.id) {
+      case "signIn":
+        await fireAuth
+          .signInWithEmailAndPassword(changedName, password)
+          .catch((error) => {
+            const { code, message } = error;
+            code.includes("email")
+              ? setEmailErr(message)
+              : setPasswordErr(message);
+            console.log(error.code);
+          });
+        break;
 
-        if (getUserInfoFromLS) {
-          window.localStorage.removeItem("user");
-        }
-        window.localStorage.setItem("user", JSON.stringify(userInfoToLS));
-        user.updateProfile({
-          displayName: createUserName(email),
-        });
-      })
-      .then(() => {
-        setName("");
-        setPassword("");
-        // setUser(fireAuth.currentUser);
-      })
-      .catch((error) => {
-        const { code, message } = error;
-        code.includes("email") ? setEmailErr(message) : setPasswordErr(message);
-        console.log(error.code);
-      });
-  };
+      case "signUp":
+        await fireAuth
+          .createUserWithEmailAndPassword(changedName, password)
+          .then((info) => {
+            const { user } = info;
+            user.updateProfile({
+              displayName: name,
+            });
+          })
+          .catch((error) => {
+            const { code, message } = error;
+            code.includes("email")
+              ? setEmailErr(message)
+              : setPasswordErr(message);
+            console.log(error.code);
+          });
+        break;
 
-  // const signInWithGoogle = async () => {
-  //   const user = await fireAuth.signInWithPopup(fireGoogleProvider)
-  //   setUser(fireAuth)
-  // }
+      case "signInWithGoogle":
+        await fireAuth.signInWithPopup(fireGoogleProvider);
+        break;
 
-  const clickSignInWithGoogle = async () => {
-    const {user} = await fireAuth.signInWithPopup(fireGoogleProvider);
-    dispatchUser(signInWithGoogle(user));
-  };
+      case "signInDev":
+        await fireAuth
+          .signInWithEmailAndPassword("DEV@helponizer.com", "111111")
+          .catch((error) => {
+            console.log(error.code);
+            console.log(error.message);
+          });
+        break;
 
-  const signInDev = (event) => {
-    event.preventDefault();
-    fireAuth
-      .signInWithEmailAndPassword("DEV@helponizer.com", "111111")
-      .then(() => {
-        const getUserInfoFromLS = window.localStorage.getItem("user");
-        const userInfoToLS = { name: "DEV@helponizer.com", password: "111111" };
-
-        if (getUserInfoFromLS) {
-          window.localStorage.removeItem("user");
-        }
-        window.localStorage.setItem("user", JSON.stringify(userInfoToLS));
-        setName("");
-        setPassword("");
-        setUser(fireAuth.currentUser);
-      })
-      .catch((error) => {
-        console.log(error.code);
-        console.log(error.message);
-      });
+      default:
+        break;
+    }
+    setName("");
+    setPassword("");
+    setUser(fireAuth.currentUser);
   };
 
   return (
     <div className={styles.wrapper}>
-      <form className={styles.form} onSubmit={signIn}>
+      <form className={styles.form}>
         <div className={styles.inputs}>
           <input
             className={styles.input}
@@ -147,18 +106,23 @@ export const Autorization = ({setUser}) => {
           </p>
         </div>
         <div className={styles.buttons}>
-          <button className={styles.button} onClick={signIn}>
+          <button className={styles.button} id="signIn" onClick={enterUser}>
             Sign In
           </button>
-          <button className={styles.button} onClick={signUp}>
+          <button className={styles.button} id="signUp" onClick={enterUser}>
             Sign Up
           </button>
-          <button className={styles.button} onClick={clickSignInWithGoogle}>
+          <button
+            className={styles.button}
+            id="signInWithGoogle"
+            onClick={enterUser}
+          >
             Log In with Google
           </button>
           <button
             className={`${styles.button} ${styles.devBtn}`}
-            onClick={signInDev}
+            id="signInDev"
+            onClick={enterUser}
           >
             Develope
           </button>

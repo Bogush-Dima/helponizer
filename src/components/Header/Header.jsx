@@ -6,7 +6,7 @@ import { NavLink } from "react-router-dom";
 import { Context } from "context";
 
 export const Header = () => {
-  const {userName, setUser} = useContext(Context)
+  const {user, setUser} = useContext(Context)
 
   const signOut = (event) => {
     event.preventDefault();
@@ -32,7 +32,7 @@ export const Header = () => {
         <img className={styles.logo} src={logo} alt="logo" />
       </NavLink>
       <div className={styles.user}>
-        <p className={styles.userName}>{userName}</p>
+        <p className={styles.userName}>{user ? user.displayName : ''}</p>
         <button onClick={signOut}>Sign Out</button>
       </div>
     </header>

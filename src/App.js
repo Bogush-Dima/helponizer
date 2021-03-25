@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter, Route } from "react-router-dom";
 import { useEffect, useState, useContext } from "react";
 import styles from "App.module.css";
-import { fireData, fireAuth } from "firebase.js";
+import { fireData } from "firebase.js";
 import { TODOS, ALLCATEGORIESNAMES } from "firebaseConstants";
 import Main from "components/Main/Main";
 import SideBar from "components/SideBar/SideBar";
@@ -14,10 +14,7 @@ import { Context } from "context";
 const App = () => {
   const [flagApp, setFlagApp] = useState(false);
   const [todoLists, setTodoLists] = useState([]);
-  // const [user, setUser] = useState('');
   const {user} = useContext(Context)
-
-  console.log(user);
 
   useEffect(() => {
     if (user) {
@@ -33,14 +30,8 @@ const App = () => {
           setTodoLists(todoListsArr);
         });
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [flagApp]);
-
-  const context = {
-    user,
-    userName: user ? user.displayName : '',
-    flagApp,
-    setFlagApp
-  };
 
   return (
     <BrowserRouter>
