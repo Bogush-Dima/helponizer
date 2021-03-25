@@ -54,7 +54,9 @@ export const Autorization = () => {
         break;
 
       case "signInWithGoogle":
-        await fireAuth.signInWithPopup(fireGoogleProvider);
+        await fireAuth
+          .signInWithPopup(fireGoogleProvider)
+          .catch((error) => console.log(error.message));
         break;
 
       case "signInDev":
