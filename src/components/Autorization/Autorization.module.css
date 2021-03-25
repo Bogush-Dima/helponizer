@@ -61,9 +61,10 @@
 .button {
   padding: 10px 15px;
   min-width: 45%;
+  margin-bottom: 15px;
 }
 
 .devBtn {
   margin-top: 20px;
-  /* display: none; */
+  display: none;
 }
