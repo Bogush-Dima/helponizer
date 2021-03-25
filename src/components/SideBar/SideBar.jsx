@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import clsx from "clsx";
 import styles from "./SideBar.module.css";
 import { TodoLists } from "./TodoLists/TodoLists";
-import {fireAuth} from 'firebase.js'
 
 const SideBar = ({flagApp, setFlagApp}) => {
   const [toggleTodoLists, setToggleTodoLists] = useState(false);
