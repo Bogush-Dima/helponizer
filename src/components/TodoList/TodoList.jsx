@@ -7,7 +7,7 @@ import AddNewTaskForm from "components/TodoList/components/AddNewTaskForm/AddNew
 import SerchForm from "components/TodoList/components/SerchForm/SerchForm";
 import TodosItems from "components/TodoList/components/TodosItems/TodosItems";
 
-const TodoList = ({ title, userName }) => {
+export const TodoList = ({ title, userName }) => {
   const path = decodeURI(window.location.pathname.slice(1));
   const [serchValue, setSerchValue] = useState("");
   const [todos, setTodos] = useState([]);
@@ -69,5 +69,3 @@ const TodoList = ({ title, userName }) => {
     </div>
   );
 };
-
-export default TodoList;

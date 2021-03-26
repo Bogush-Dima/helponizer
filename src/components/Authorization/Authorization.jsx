@@ -1,15 +1,13 @@
-import { useContext, useState } from "react";
-import styles from "./Autorization.module.css";
+import { useState } from "react";
+import styles from "./Authorization.module.css";
 import { fireAuth, fireGoogleProvider } from "firebase.js";
 import clsx from "clsx";
-import { Context } from "context";
 
-export const Autorization = () => {
+export const Authorization = () => {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [emailErr, setEmailErr] = useState("");
   const [passwordErr, setPasswordErr] = useState("");
-  const { setUser } = useContext(Context);
 
   const changeInputsValues = (event, setValue) => {
     event.preventDefault();
@@ -73,7 +71,6 @@ export const Autorization = () => {
     }
     setName("");
     setPassword("");
-    setUser(fireAuth.currentUser);
   };
 
   return (

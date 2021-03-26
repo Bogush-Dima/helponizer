@@ -3,7 +3,7 @@ import clsx from "clsx";
 import styles from "./SideBar.module.css";
 import { TodoLists } from "./TodoLists/TodoLists";
 
-const SideBar = ({flagApp, setFlagApp}) => {
+export const SideBar = ({flagApp, setFlagApp}) => {
   const [toggleTodoLists, setToggleTodoLists] = useState(false);
 
   const clickTodoLists = () => {
@@ -27,5 +27,3 @@ const SideBar = ({flagApp, setFlagApp}) => {
     </nav>
   );
 };
-
-export default SideBar;

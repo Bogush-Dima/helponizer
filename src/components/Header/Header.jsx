@@ -4,35 +4,27 @@ import styles from "./Header.module.css";
 import logo from "./logo.png";
 import { NavLink } from "react-router-dom";
 import { Context } from "context";
+import { AUTHORIZATION, HOME } from "constants/constants";
 
 export const Header = () => {
-  const {user, setUser} = useContext(Context)
+  const { user } = useContext(Context);
 
   const signOut = (event) => {
     event.preventDefault();
-    window.location.pathname = "/";
-    fireAuth
-      .signOut()
-      .then(() => {
-        const getUserInfoFromLS = window.localStorage.getItem("user");
-        if (getUserInfoFromLS) {
-          window.localStorage.removeItem("user");
-        }
-        setUser(fireAuth.currentUser);
-      })
-      .catch((error) => {
-        console.log(error.code);
-        console.log(error.message);
-      });
+    window.location.pathname = AUTHORIZATION;
+    fireAuth.signOut().catch((error) => {
+      console.log(error.code);
+      console.log(error.message);
+    });
   };
 
   return (
     <header className={styles.header}>
-      <NavLink className={styles.home} to="">
+      <NavLink className={styles.home} to={HOME}>
         <img className={styles.logo} src={logo} alt="logo" />
       </NavLink>
       <div className={styles.user}>
-        <p className={styles.userName}>{user ? user.displayName : ''}</p>
+        <p className={styles.userName}>{user.displayName}</p>
         <button onClick={signOut}>Sign Out</button>
       </div>
     </header>

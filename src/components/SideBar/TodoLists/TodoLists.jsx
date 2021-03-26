@@ -6,6 +6,7 @@ import { fireData } from "firebase.js";
 import { TODOS, ALLCATEGORIESNAMES } from "firebaseConstants";
 import { NavLink } from "react-router-dom";
 import {Context} from 'context'
+import { HOME } from "constants/constants";
 
 export const TodoLists = ({ toggleTodoLists }) => {
   const [flag, setFlag] = useState(false)
@@ -85,7 +86,7 @@ export const TodoLists = ({ toggleTodoLists }) => {
         const title = value[0].toUpperCase() + value.slice(1);
         return (
           <li className={styles.item} key={key}>
-            <NavLink className={styles.link} to={filteredtodoListName}>
+            <NavLink className={styles.link} to={`${HOME}/${filteredtodoListName}`}>
               {title}
             </NavLink>
           </li>

@@ -1,18 +1,23 @@
-import React, { useState } from "react";
+import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import {Context} from 'context'
+import { Context } from "context";
+import { BrowserRouter } from "react-router-dom";
+import {useAuthState} from 'react-firebase-hooks/auth'
+import { fireAuth } from "firebase.js";
 
 const Main = () => {
-  const [user, setUser] = useState(null)
+  const [user] = useAuthState(fireAuth);
 
   return (
     <React.StrictMode>
-    <Context.Provider value={{user, setUser}}>
-      <App />
-    </Context.Provider>
+      <BrowserRouter>
+        <Context.Provider value={{ user }}>
+          <App />
+        </Context.Provider>
+      </BrowserRouter>
     </React.StrictMode>
   );
 };
