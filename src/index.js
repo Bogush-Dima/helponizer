@@ -11,8 +11,6 @@ import { fireAuth } from "firebase.js";
 const Main = () => {
   const [user, isLoading] = useAuthState(fireAuth);
 
-  console.log(useAuthState(fireAuth))
-
   return (
     <React.StrictMode>
       <BrowserRouter>
