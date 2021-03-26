@@ -2,10 +2,10 @@ import React, { useContext, useEffect, useState } from "react";
 import NotificationSystem from "react-notification-system";
 import clsx from "clsx";
 import styles from "./TodoLists.module.css";
-import { fireData } from "firebase.js";
-import { TODOS, ALLCATEGORIESNAMES } from "firebaseConstants";
+import { fireData } from "utils/firebase.js";
+import { TODOS, ALLCATEGORIESNAMES } from "constants/constants";
 import { NavLink } from "react-router-dom";
-import {Context} from 'context'
+import {Context} from 'utils/context'
 import { HOME } from "constants/constants";
 
 export const TodoLists = ({ toggleTodoLists }) => {

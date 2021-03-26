@@ -2,13 +2,13 @@ import React from "react";
 import { Route } from "react-router-dom";
 import { useEffect, useState, useContext } from "react";
 import styles from "./Application.module.css";
-import { fireData } from "firebase.js";
-import { TODOS, ALLCATEGORIESNAMES } from "firebaseConstants";
+import { fireData } from "utils/firebase.js";
+import { TODOS, ALLCATEGORIESNAMES } from "constants/constants";
 import { Main } from "components/Main/Main";
 import { SideBar } from "components/SideBar/SideBar";
 import { TodoList } from "components/TodoList/TodoList";
 import { Header } from "components/Header/Header";
-import { Context } from "context";
+import { Context } from "utils/context";
 import { HOME } from "constants/constants";
 
 export const Application = () => {

@@ -2,8 +2,8 @@ import React from "react";
 import { useState, useEffect } from "react";
 import NotificationSystem from "react-notification-system";
 import styles from "./AddNewTaskForm.module.css";
-import { fireData } from "firebase.js";
-import { TODOS } from "firebaseConstants";
+import { fireData } from "utils/firebase.js";
+import { TODOS } from "constants/constants";
 
 const AddNewTaskForm = ({userName}) => {
   const path = decodeURI(window.location.pathname.slice(1)) ;

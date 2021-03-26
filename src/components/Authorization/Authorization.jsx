@@ -1,6 +1,6 @@
 // import { useState } from "react";
 import styles from "./Authorization.module.css";
-import { fireAuth, fireGoogleProvider } from "firebase.js";
+import { fireAuth, fireGoogleProvider } from "utils/firebase.js";
 // import clsx from "clsx";
 
 export const Authorization = () => {

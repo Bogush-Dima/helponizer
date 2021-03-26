@@ -1,9 +1,9 @@
 import React, { useContext } from "react";
-import { fireAuth } from "firebase.js";
+import { fireAuth } from "utils/firebase.js";
 import styles from "./Header.module.css";
-import logo from "./logo.png";
+import logo from 'assets/logo.png';
 import { NavLink } from "react-router-dom";
-import { Context } from "context";
+import { Context } from "utils/context";
 import { AUTHORIZATION, HOME } from "constants/constants";
 
 export const Header = () => {

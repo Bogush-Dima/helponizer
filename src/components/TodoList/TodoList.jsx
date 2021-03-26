@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import clsx from "clsx";
 import styles from "./TodoList.module.css";
-import { fireData } from "firebase.js";
-import { TODOS } from "firebaseConstants";
+import { fireData } from "utils/firebase.js";
+import { TODOS } from "constants/constants";
 import AddNewTaskForm from "components/TodoList/components/AddNewTaskForm/AddNewTaskForm.jsx";
 import SerchForm from "components/TodoList/components/SerchForm/SerchForm";
 import TodosItems from "components/TodoList/components/TodosItems/TodosItems";

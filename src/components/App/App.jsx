@@ -1,10 +1,10 @@
 import { AUTHORIZATION, HOME } from "constants/constants";
-import { Context } from "context";
+import { Context } from "utils/context";
 import React, { useContext } from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
-import { privateRoutes, publicRoutes } from "routes";
+import { privateRoutes, publicRoutes } from "utils/routes";
 
-const App = () => {
+export const App = () => {
   const { user, isLoading } = useContext(Context);
 
   return !isLoading ? (
@@ -27,5 +27,3 @@ const App = () => {
     <div />
   );
 };
-
-export default App;
