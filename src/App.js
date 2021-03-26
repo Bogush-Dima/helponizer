@@ -5,22 +5,26 @@ import { Switch, Route, Redirect } from "react-router-dom";
 import { privateRoutes, publicRoutes } from "routes";
 
 const App = () => {
-  const {user} = useContext(Context)
+  const { user, isLoading } = useContext(Context);
 
-  return user ? (
-    <Switch>
-      {privateRoutes.map(({ path, component }) => (
-        <Route key={path} path={path} component={component} />
-      ))}
-      <Redirect to={HOME} />
-    </Switch>
+  return !isLoading ? (
+    user ? (
+      <Switch>
+        {privateRoutes.map(({ path, component }) => (
+          <Route key={path} path={path} component={component} />
+        ))}
+        <Redirect to={HOME} />
+      </Switch>
+    ) : (
+      <Switch>
+        {publicRoutes.map(({ path, component }) => (
+          <Route key={path} path={path} component={component} />
+        ))}
+        <Redirect to={AUTHORIZATION} />
+      </Switch>
+    )
   ) : (
-    <Switch>
-      {publicRoutes.map(({ path, component }) => (
-        <Route key={path} path={path} component={component} />
-      ))}
-      <Redirect to={AUTHORIZATION} />
-    </Switch>
+    <div />
   );
 };
 

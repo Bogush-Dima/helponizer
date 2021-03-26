@@ -9,12 +9,14 @@ import {useAuthState} from 'react-firebase-hooks/auth'
 import { fireAuth } from "firebase.js";
 
 const Main = () => {
-  const [user] = useAuthState(fireAuth);
+  const [user, isLoading] = useAuthState(fireAuth);
+
+  console.log(useAuthState(fireAuth))
 
   return (
     <React.StrictMode>
       <BrowserRouter>
-        <Context.Provider value={{ user }}>
+        <Context.Provider value={{ user, isLoading }}>
           <App />
         </Context.Provider>
       </BrowserRouter>
