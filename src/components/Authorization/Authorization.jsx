@@ -5,9 +5,9 @@ import { fireAuth, fireGoogleProvider } from "utils/firebase.js";
 export const Authorization = () => {
   const signIn = (event) => {
     event.preventDefault();
-    fireAuth
-      .signInWithPopup(fireGoogleProvider)
-      .catch((error) => console.log(error.message));
+    fireAuth.signInWithPopup(fireGoogleProvider).catch(({message}) => {
+      throw new Error(message);
+    });
   };
 
   return (

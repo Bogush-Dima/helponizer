@@ -7,7 +7,7 @@ export const SideBar = ({flagApp, setFlagApp}) => {
   const [toggleTodoLists, setToggleTodoLists] = useState(false);
 
   const clickTodoLists = () => {
-    setFlagApp(!flagApp)
+    setFlagApp(prevFlag => !prevFlag)
     setToggleTodoLists(!toggleTodoLists);
   };
 
