@@ -1,17 +1,27 @@
 import firebase from "firebase";
 
+const {
+  REACT_APP_FIREBASE_API_KEY,
+  REACT_APP_FIREBASE_AUTH_DOMAIN,
+  REACT_APP_FIREBASE_DATABASE_URL,
+  REACT_APP_FIREBASE_PROJECTED_ID,
+  REACT_APP_FIREBASE_STORAGE_BUCKET,
+  REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+  REACT_APP_FIREBASE_APP_ID
+} = process.env
+
 const firebaseConfig = {
-  apiKey: "AIzaSyCpVAzkQTHvnlTwzGcU47aiSZNwzw9iOCg",
-  authDomain: "helponizer-74da5.firebaseapp.com",
-  databaseURL: "https://helponizer-74da5-default-rtdb.firebaseio.com",
-  projectId: "helponizer-74da5",
-  storageBucket: "helponizer-74da5.appspot.com",
-  messagingSenderId: "860339054214",
-  appId: "1:860339054214:web:32e0ff791058ecbd6cd307",
+  apiKey: REACT_APP_FIREBASE_API_KEY,
+  authDomain: REACT_APP_FIREBASE_AUTH_DOMAIN,
+  databaseURL: REACT_APP_FIREBASE_DATABASE_URL,
+  projectId: REACT_APP_FIREBASE_PROJECTED_ID,
+  storageBucket: REACT_APP_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+  appId: REACT_APP_FIREBASE_APP_ID,
 };
 
 firebase.initializeApp(firebaseConfig);
 export const fireData = firebase.database();
-export const fireAuth = firebase.auth()
-export const fireStore = firebase.firestore()
-export const fireGoogleProvider = new firebase.auth.GoogleAuthProvider()
+export const fireAuth = firebase.auth();
+export const fireStore = firebase.firestore();
+export const fireGoogleProvider = new firebase.auth.GoogleAuthProvider();
