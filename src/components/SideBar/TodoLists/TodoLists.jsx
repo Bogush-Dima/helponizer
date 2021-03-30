@@ -1,20 +1,25 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import NotificationSystem from "react-notification-system";
 import clsx from "clsx";
 import styles from "./TodoLists.module.css";
-import { fireData, fireAuth } from "firebase.js";
-import { TODOS, ALLCATEGORIESNAMES } from "firebaseConstants";
+import { fireData } from "utils/firebase.js";
+import { TODOS, ALLCATEGORIESNAMES } from "constants/constants";
 import { NavLink } from "react-router-dom";
+import {Context} from 'utils/context'
+import { HOME } from "constants/constants";
 
 export const TodoLists = ({ toggleTodoLists }) => {
+  const [flag, setFlag] = useState(false)
   const [todoLists, setTodoLists] = useState([]);
-  const [userName] = useState(fireAuth.currentUser.displayName);
   const [todoListName, setTodoListName] = useState("");
   const notificationSystem = React.useRef();
 
+  const {user} = useContext(Context)
+
   useEffect(() => {
-    fireData
-      .ref(`/${userName}/${TODOS}/${ALLCATEGORIESNAMES}`)
+    if (user) {
+      fireData
+      .ref(`/${user.displayName}/${TODOS}/${ALLCATEGORIESNAMES}`)
       .on("value", (snapshot) => {
         const todoListsArr = [];
         snapshot.forEach((todoList) => {
@@ -24,8 +29,10 @@ export const TodoLists = ({ toggleTodoLists }) => {
         });
         setTodoLists(todoListsArr);
       });
+    }
+    
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [flag]);
 
   const addNotification = () => {
     const notification = notificationSystem.current;
@@ -47,12 +54,13 @@ export const TodoLists = ({ toggleTodoLists }) => {
     if (todoLists.some(isAvailable)) {
       addNotification();
     } else {
-      if (finalResultTodoListName) {
+      if (finalResultTodoListName && user) {
         fireData
-          .ref(`/${userName}/${TODOS}/${ALLCATEGORIESNAMES}`)
+          .ref(`/${user.displayName}/${TODOS}/${ALLCATEGORIESNAMES}`)
           .push(finalResultTodoListName);
       }
       setTodoListName("");
+      setFlag(!flag)
     }
   };
 
@@ -78,7 +86,7 @@ export const TodoLists = ({ toggleTodoLists }) => {
         const title = value[0].toUpperCase() + value.slice(1);
         return (
           <li className={styles.item} key={key}>
-            <NavLink className={styles.link} to={filteredtodoListName}>
+            <NavLink className={styles.link} to={`${HOME}/${filteredtodoListName}`}>
               {title}
             </NavLink>
           </li>

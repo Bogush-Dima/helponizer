@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { fireData, fireAuth } from "firebase.js";
-import { TODOS } from "firebaseConstants";
+import { fireData, fireAuth } from "utils/firebase.js";
+import { TODOS } from "constants/constants";
 import clsx from "clsx";
 import styles from "./TodoItem.module.css";
 

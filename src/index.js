@@ -1,18 +1,26 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { Provider } from "react-redux";
-import "./index.css";
-import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import { store } from "store";
+import { Context } from "utils/context";
+import { BrowserRouter } from "react-router-dom";
+import {useAuthState} from 'react-firebase-hooks/auth'
+import { fireAuth } from "utils/firebase.js";
+import {App} from "components/App/App";
 
-ReactDOM.render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <App />
-    </Provider>
-  </React.StrictMode>,
-  document.getElementById("root")
-);
+const Main = () => {
+  const [user, isLoading] = useAuthState(fireAuth);
+
+  return (
+    <React.StrictMode>
+      <BrowserRouter>
+        <Context.Provider value={{ user, isLoading }}>
+          <App />
+        </Context.Provider>
+      </BrowserRouter>
+    </React.StrictMode>
+  );
+};
+
+ReactDOM.render(<Main />, document.getElementById("root"));
 
 reportWebVitals();

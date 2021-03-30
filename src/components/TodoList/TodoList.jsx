@@ -1,16 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import clsx from "clsx";
 import styles from "./TodoList.module.css";
-import { fireData } from "firebase.js";
-import { TODOS } from "firebaseConstants";
+import { fireData } from "utils/firebase.js";
+import { TODOS } from "constants/constants";
 import AddNewTaskForm from "components/TodoList/components/AddNewTaskForm/AddNewTaskForm.jsx";
 import SerchForm from "components/TodoList/components/SerchForm/SerchForm";
 import TodosItems from "components/TodoList/components/TodosItems/TodosItems";
 
-const TodoList = ({ title, userName }) => {
-  const path = window.location.pathname.slice(1);
+export const TodoList = ({ title, userName }) => {
+  const path = decodeURI(window.location.pathname.slice(1));
   const [serchValue, setSerchValue] = useState("");
   const [todos, setTodos] = useState([]);
+  const completedTasks = useMemo(() => todos.filter((todo) => todo.completed), [todos])
+  const notCompletedTasks = useMemo(() => todos.filter((todo) => !todo.completed), [todos])
 
   useEffect(() => {
     fireData.ref(`/${userName}/${TODOS}/${path}`).on("value", (snapshot) => {
@@ -24,10 +26,6 @@ const TodoList = ({ title, userName }) => {
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  const getNotCompletedTasks = () => todos.filter((todo) => !todo.completed);
-
-  const getCompletedTasks = () => todos.filter((todo) => todo.completed);
 
   const getFilteredTasksByName = (todos, serchValue) =>
     todos.filter((el) =>
@@ -45,7 +43,7 @@ const TodoList = ({ title, userName }) => {
             <div className={styles.todos}>
               <TodosItems
                 items={getFilteredTasksByName(
-                  getNotCompletedTasks(),
+                  notCompletedTasks,
                   serchValue
                 )}
               />
@@ -55,13 +53,13 @@ const TodoList = ({ title, userName }) => {
           <section className={styles.completedTasks}>
             <h2
               className={clsx(styles.subTitle, styles.completedTitle, {
-                [styles.completedTitileTrue]: getCompletedTasks().length !== 0,
+                [styles.completedTitileTrue]: completedTasks.length !== 0,
               })}
             >
               COMPLETED TASKS
             </h2>
             <TodosItems
-              items={getFilteredTasksByName(getCompletedTasks(), serchValue)}
+              items={getFilteredTasksByName(completedTasks, serchValue)}
             />
           </section>
         </div>
@@ -69,5 +67,3 @@ const TodoList = ({ title, userName }) => {
     </div>
   );
 };
-
-export default TodoList;

@@ -1,0 +1,15 @@
+.wrapper {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100vw;
+  background: #1d1d1d;
+  z-index: 500;
+}
+
+.button {
+  padding: 10px 15px;
+  margin-bottom: 15px;
+}
